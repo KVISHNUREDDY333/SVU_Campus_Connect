@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusConnect AI</title>
+    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/svu_logo_final_v2.jpg" type="image/jpeg">
+</head>
+
+<body>
+
+    <div id="splash-screen">
+        <div class="splash-content">
+            <img src="images/svu_logo_final_v2.jpg" alt="Sri Venkateswara University Logo" class="splash-logo">
+            <h1 class="splash-title">Sri Venkateswara University</h1>
+            <p class="splash-motto">"STUDENTS POWER - NATIONS POWER"</p>
+            <p class="splash-quote">"Arm yourself with wisdom, navigate with ideals, and anchor your purpose in the
+                service of nation."</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="images/svu_logo_final_v2.jpg" alt="SVU logo" class="logo-img">
+                <h2>CampusConnect AI</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li onclick="showSection('chat')" class="active" id="nav-chat"><i
+                            class="fa-regular fa-comment-dots"></i> Home</li>
+                    <li onclick="showSection('admin')" id="nav-admin"><i class="fa-solid fa-gear"></i> Admin</li>
+                    <li><a href="https://svuniversity.edu.in/" target="_blank"><i class="fa-solid fa-globe"></i>
+                            Official Website</a></li>
+                    <li id="nav-location" onclick="openLocations()"><i class="fa-solid fa-location-dot"></i> Locations
+                    </li>
+                    <li id="nav-theme" onclick="toggleTheme()"><i class="fa-solid fa-moon" id="theme-icon"></i> <span
+                            id="theme-text">Dark Mode</span></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Chat Interface -->
+            <section id="chat-section">
+                <!-- Header -->
+                <div class="header">
+                    <h3></h3>
+                    <div class="actions">
+                        <i class="fa-solid fa-plus" title="New Thread" onclick="clearChat()"></i>
+                        <i class="fa-solid fa-rotate-right" title="Refresh" onclick="window.location.reload()"></i>
+                    </div>
+                </div>
+
+                <!-- Chat Area -->
+                <div class="chat-area" id="chat-box">
+
+                    <!-- Welcome Screen (Initial State) -->
+                    <div id="welcome-screen" class="welcome-screen">
+                        <img src="images/svu_logo_final_v2.jpg" class="welcome-logo" alt="Logo">
+                        <div class="welcome-text">
+                            <h1>How can I help you?</h1>
+                            <p>Ask me anything about courses, facilities, placements, or campus life at Sri Venkateswara
+                                University.</p>
+                        </div>
+                        <div class="suggestions-grid">
+                            <div class="suggestion-card" onclick="appendQuick('What courses do you offer?')">
+                                <div class="title">Academic Programs</div>
+                                <div class="desc">What courses does SVU offer?</div>
+                            </div>
+                            <div class="suggestion-card" onclick="appendQuick('Tell me about the library facilities')">
+                                <div class="title">Campus Facilities</div>
+                                <div class="desc">Tell me about the library</div>
+                            </div>
+                            <div class="suggestion-card" onclick="appendQuick('What is the admission procedure?')">
+                                <div class="title">Admissions</div>
+                                <div class="desc">How can I apply?</div>
+                            </div>
+                            <div class="suggestion-card" onclick="appendQuick('Where are the hostels located?')">
+                                <div class="title">Accommodation</div>
+                                <div class="desc">Where are the hostels?</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Messages will be appended here -->
+
+                    <!-- Typing Indicator -->
+                    <div id="typing-indicator" class="typing-indicator" style="display: none;">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+
+                <!-- Floating Input Area -->
+                <div class="input-area-wrapper">
+                    <div class="input-container">
+                        <input type="text" id="user-input" placeholder="Ask anything... (Type or Speak)"
+                            autocomplete="off">
+                        <button id="mic-btn" class="icon-btn" onclick="toggleVoiceInput()"><i
+                                class="fa-solid fa-microphone"></i></button>
+                        <button id="send-btn" class="send-btn" onclick="sendMessage()"><i
+                                class="fa-solid fa-arrow-up"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Dashboard -->
+            <section id="admin-section" style="display: none;">
+                <div class="header">
+                    <h3>Admin Dashboard</h3>
+                </div>
+                <div class="admin-content">
+                    <div class="admin-profile-card">
+                        <img src="images/admin_avatar.jpg" alt="Admin" class="admin-avatar-lg">
+                        <div class="admin-info">
+                            <h4>Administrator</h4>
+                            <p>Super User</p>
+                        </div>
+                        <button class="btn-primary" onclick="openModal()">+ Add New FAQ</button>
+                    </div>
+
+                    <div class="admin-divider"></div>
+                    <h4 class="section-title">Manage Knowledge Base</h4>
+
+                    <div class="admin-search-container">
+                        <input type="text" id="admin-search-input" placeholder="Search knowledge base..."
+                            class="admin-search-input">
+                        <i class="fa-solid fa-magnifying-glass admin-search-icon"></i>
+                    </div>
+
+                    <div class="faq-list" id="faq-list">
+                        <!-- FAQs populated here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Information Modal -->
+    <div id="faq-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Share Information</h3>
+            </div>
+
+            <input type="hidden" id="edit-id">
+
+            <div class="form-group">
+                <label>Title / Question</label>
+                <input type="text" id="faq-question" placeholder="e.g., New Scholarship Available">
+            </div>
+
+            <div class="form-group">
+                <label>Information / Answer</label>
+                <textarea id="faq-answer" rows="5" placeholder="Provide all the details here."></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn-submit" onclick="saveFAQ()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Locations Modal -->
+    <div id="locations-modal" class="locations-modal" style="display:none;">
+        <div class="locations-card">
+            <button class="locations-close" onclick="closeLocations()">&times;</button>
+            <h2 class="locations-title">University Locations</h2>
+            <p class="locations-desc">Select a facility or department to ask the chatbot for its location.</p>
+
+            <div class="locations-header">
+                <div class="uni-name">Sri Venkateswara University</div>
+                <div class="uni-sub">Tirupati, Andhra Pradesh</div>
+            </div>
+
+            <div class="locations-list" id="locations-list">
+                <!-- populated by script -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js?v=2"></script>
+</body>
+
+</html>
