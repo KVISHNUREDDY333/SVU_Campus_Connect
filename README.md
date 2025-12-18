@@ -1,1 +1,1 @@
-# SVU_Campus_Connect
+# Campus_Connect_AI
